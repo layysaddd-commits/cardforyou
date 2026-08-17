@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Untuk Kamu 💜</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;overflow:hidden;font-family:Georgia,serif;background:#100d14;color:#eee7f2}
+.bg{position:fixed;inset:0;background:radial-gradient(circle at 20% 20%,#4b3b55 0%,transparent 35%),radial-gradient(circle at 80% 80%,#30263a 0%,transparent 40%),#100d14}
+#tulips{position:fixed;inset:0;pointer-events:none;overflow:hidden}
+.tulip{position:absolute;bottom:-45px;font-size:var(--size);opacity:.72;animation:naik var(--dur) linear forwards}
+@keyframes naik{
+0%{transform:translate3d(0,0,0) rotate(0deg);opacity:0}
+12%{opacity:.72}
+50%{transform:translate3d(var(--x),-50vh,0) rotate(35deg)}
+100%{transform:translate3d(var(--x2),-115vh,0) rotate(80deg);opacity:0}
+}
+.container{position:relative;width:100vw;height:100vh;display:flex;align-items:center;justify-content:center}
+.slide{width:90%;max-width:620px;min-height:500px;padding:38px 34px;border-radius:24px;background:rgba(27,23,32,.9);border:1px solid rgba(215,198,222,.2);box-shadow:0 25px 80px rgba(0,0,0,.45);backdrop-filter:blur(14px);text-align:center;display:none;flex-direction:column;justify-content:center;animation:masuk .55s ease}
+.slide.active{display:flex}
+@keyframes masuk{from{opacity:0;transform:translateX(35px)}to{opacity:1;transform:translateX(0)}}
+.emoji{font-size:56px;margin-bottom:12px}
+h1{color:#decde6;font-size:34px;margin:8px}
+h2{color:#d8c5df;font-size:25px;margin:8px}
+p{color:#c9bdce;font-size:17px;line-height:1.8}
+button{border:0;padding:13px 28px;margin-top:20px;border-radius:30px;background:#80698c;color:white;font-family:Georgia,serif;font-size:15px;cursor:pointer;transition:.25s}
+button:hover{background:#9b83a6;transform:translateY(-2px)}
+.dots{position:fixed;bottom:18px;left:0;right:0;text-align:center}
+.dot{display:inline-block;width:7px;height:7px;margin:4px;border-radius:50%;background:#665c6b}
+.dot.active{background:#d0bbd8}
+textarea{width:100%;height:120px;padding:14px;resize:none;border-radius:14px;border:1px solid #75667d;background:#18141d;color:white;outline:none;font-family:Georgia,serif;font-size:15px}
+@media(max-width:600px){.slide{min-height:490px;padding:28px 22px}h1{font-size:28px}h2{font-size:22px}p{font-size:15px}.emoji{font-size:48px}}
+</style>
+</head>
+<body>
+
+<div class="bg"></div>
+<div id="tulips"></div>
+
+<div class="container">
+
+<div class="slide active" id="slide1">
+<div class="emoji">😭</div>
+<h1>WOI...</h1>
+<p>Iya, kamu.</p>
+<p>Udah sampai sini,<br>jangan kabur dulu 😭</p>
+<p>Ada sedikit pesan buat kamu.</p>
+<button onclick="nextSlide()">Yaudah, lanjut →</button>
+</div>
+
+<div class="slide" id="slide2">
+<div class="emoji">🫠</div>
+<h2>Kalau banyak tugas...</h2>
+<p>Kerjain sebisanya dulu.</p>
+<p>Jangan semuanya dipaksain<br>dalam satu waktu.</p>
+<p>Pelan-pelan juga tetap maju. 🤍</p>
+<button onclick="nextSlide()">Lanjut →</button>
+</div>
+
+<div class="slide" id="slide3">
+<div class="emoji">🍜</div>
+<h2>Jangan lupa makan</h2>
+<p>Kalau tugas lagi banyak,<br>jangan lupa makan dan minum.</p>
+<p>Tugas memang penting,<br>tapi kamu juga penting.</p>
+<button onclick="nextSlide()">Oke, lanjut →</button>
+</div>
+
+<div class="slide" id="slide4">
+<div class="emoji">🌙</div>
+<h2>Kalau sudah kecapean...</h2>
+<p>Jangan dipaksain.</p>
+<p>Istirahat sebentar,<br>tarik napas, tenangin pikiran.</p>
+<p>Besok bisa dilanjut lagi.</p>
+<button onclick="nextSlide()">Masih ada satu lagi →</button>
+</div>
+
+<div class="slide" id="slide5">
+<div class="emoji">💜</div>
+<h2>Satu hal terakhir...</h2>
+<p>Jangan lupa jaga diri sendiri.</p>
+<p>Kamu nggak harus menyelesaikan<br>semuanya hari ini.</p>
+<p>Istirahat bukan berarti menyerah.</p>
+<button onclick="nextSlide()">Aku mau balas 💌</button>
+</div>
+
+<div class="slide" id="slide6">
+<div class="emoji">💌</div>
+<h2>Sekarang giliran kamu</h2>
+<p>Kalau mau bilang sesuatu,<br>tulis di sini.</p>
+<textarea id="reply" placeholder="Tulis pesan kamu..."></textarea>
+<button onclick="sendWhatsApp()">💜 Balas ke Aku</button>
+</div>
+
+</div>
+
+<div class="dots">
+<span class="dot active"></span><span class="dot"></span><span class="dot"></span>
+<span class="dot"></span><span class="dot"></span><span class="dot"></span>
+</div>
+
+<script>
+let currentSlide=1;
+const totalSlide=6;
+const nomorWhatsApp="6289510268445";
+
+function showSlide(n){
+ document.querySelectorAll(".slide").forEach(s=>s.classList.remove("active"));
+ document.getElementById("slide"+n).classList.add("active");
+ document.querySelectorAll(".dot").forEach((d,i)=>d.classList.toggle("active",i===n-1));
+}
+
+function nextSlide(){
+ if(currentSlide<totalSlide){
+   currentSlide++;
+   showSlide(currentSlide);
+ }
+}
+
+function buatTulip(){
+ const tulip=document.createElement("div");
+ tulip.className="tulip";
+ tulip.textContent="🌷";
+
+ const size=16+Math.random()*22;
+ const dur=7+Math.random()*7;
+ const x=(Math.random()*160-80);
+ const x2=(Math.random()*220-110);
+
+ tulip.style.left=Math.random()*100+"%";
+ tulip.style.setProperty("--size",size+"px");
+ tulip.style.setProperty("--dur",dur+"s");
+ tulip.style.setProperty("--x",x+"px");
+ tulip.style.setProperty("--x2",x2+"px");
+
+ document.getElementById("tulips").appendChild(tulip);
+
+ setTimeout(()=>tulip.remove(),(dur+1)*1000);
+}
+
+setInterval(buatTulip,650);
+
+for(let i=0;i<12;i++){
+ setTimeout(buatTulip,i*180);
+}
+
+function sendWhatsApp(){
+ const pesan=document.getElementById("reply").value.trim();
+
+ if(!pesan){
+   alert("Tulis pesannya dulu ya 💜");
+   return;
+ }
+
+ const teks="Hai, aku sudah membaca kartunya 💜\n\n"+pesan;
+ window.location.href=
+   "https://wa.me/"+nomorWhatsApp+
+   "?text="+encodeURIComponent(teks);
+}
+
+let touchStart=0;
+document.addEventListener("touchstart",e=>{
+ touchStart=e.touches[0].clientX;
+});
+document.addEventListener("touchend",e=>{
+ if(touchStart-e.changedTouches[0].clientX>70) nextSlide();
+});
+</script>
+</body>
+</html>
